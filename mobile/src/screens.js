@@ -35,40 +35,12 @@ const Screens = () => {
         <SafeAreaView style={styles.container}>
           <View style={styles.box}>
             <Text style={styles.heading}>Register</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Number ex. +448023432345"
-              placeholderTextColor="#d3d3d3"
-              keyboardType="phone-pad"
-              value={phoneNumber}
-              editable={!loading}
-              onChangeText={(value) =>
-                setPhoneNumber(value.replace(/\s+/g, ''))
-              }
-            />
-            <TouchableOpacity onPress={registerHandler} style={styles.button}>
-              <Text style={styles.buttonText}>Register</Text>
-            </TouchableOpacity>
           </View>
         </SafeAreaView>
       ) : (
         <SafeAreaView style={styles.container}>
           <View style={styles.box}>
             <Text style={styles.heading}>Login</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Number ex. +448023432345"
-              placeholderTextColor="#d3d3d3"
-              keyboardType="phone-pad"
-              value={phoneNumber}
-              editable={!loading}
-              onChangeText={(value) =>
-                setPhoneNumber(value.replace(/\s+/g, ''))
-              }
-            />
-            <TouchableOpacity onPress={loginHandler} style={styles.button}>
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
           </View>
         </SafeAreaView>
       )}
