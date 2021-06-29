@@ -15,6 +15,8 @@ import LinearGradient from 'react-native-linear-gradient'
 import { AuthContext } from './context'
 
 const Screens = () => {
+  // server ngrok url
+  const base_url = 'https://2cb3d5b5d0a2.ngrok.io'
   const { screen } = useContext(AuthContext)
   const [phoneNumber, setPhoneNumber] = useState('')
   const [loading, setLoading] = useState(false)

@@ -1,16 +1,12 @@
 const express = require('express')
 const cors = require('cors')
-const { createAccessToken } = require('./helpers/createAccessToken')
-const { createPhoneCheck } = require('./helpers/createPhoneCheck')
-const { getPhoneCheck } = require('./helpers/getPhoneCheckResult')
-
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
 app.use(cors())
+app.use(morgan('dev'))
 
-// global access token variable
-let AccessToken
 // create PhoneCheck
 app.post('/api/register', async (req, res) => {})
 
