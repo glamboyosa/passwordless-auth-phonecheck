@@ -42,7 +42,7 @@ const Screens = () => {
       ) : (
         <SafeAreaView style={styles.container}>
           <View style={styles.box}>
-            <Text style={styles.heading}>Login</Text>
+            <Text style={styles.heading}>Home 🏡</Text>
           </View>
         </SafeAreaView>
       )}
