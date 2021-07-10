@@ -14,7 +14,7 @@ import {
 
 import LinearGradient from 'react-native-linear-gradient'
 
-import { AuthContext } from './context'
+import { AuthContext } from './Context'
 
 const Screens = () => {
   // server ngrok url
