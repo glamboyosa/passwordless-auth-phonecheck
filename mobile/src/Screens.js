@@ -37,9 +37,7 @@ const Screens = () => {
           <View style={styles.box}>
             <Image
               style={styles.logo}
-              source={{
-                uri: 'https://gitlab.com/4auth/devx/tru-id-developer/uploads/0b58ca5c079efba056699a5d94eea73d/color_normal_vertical_4x.png',
-              }}
+              source={require('./images/tru-logo.png')}
             />
             <Text style={styles.heading}>Register</Text>
           </View>
