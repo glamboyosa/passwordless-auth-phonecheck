@@ -1,8 +1,9 @@
 import React from 'react'
 
-import Screens from './screens'
+import Screens from './Screens'
 
-import AuthContextProvider from './context'
+import AuthContextProvider from './Context'
+
 const App = () => (
   <AuthContextProvider>
     <Screens />
