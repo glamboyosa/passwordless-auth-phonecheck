@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  Alert
+  Alert,
 } from 'react-native'
 
 import LinearGradient from 'react-native-linear-gradient'
@@ -25,7 +25,7 @@ const Screens = () => {
 
   return (
     <LinearGradient
-      colors={['rgba(253,161, 114,23)', 'rgba(242, 82, 120,92)']}
+      colors={['rgba(25, 85, 255, 40)', 'rgba(10, 10, 50, 66)']}
       useAngle={true}
       angle={0}
       style={{
@@ -35,6 +35,12 @@ const Screens = () => {
       {screen === 'register' ? (
         <SafeAreaView style={styles.container}>
           <View style={styles.box}>
+            <Image
+              style={styles.logo}
+              source={{
+                uri: 'https://gitlab.com/4auth/devx/tru-id-developer/uploads/0b58ca5c079efba056699a5d94eea73d/color_normal_vertical_4x.png',
+              }}
+            />
             <Text style={styles.heading}>Register</Text>
           </View>
         </SafeAreaView>
@@ -68,6 +74,11 @@ const styles = StyleSheet.create({
     height: 0.7 * Dimensions.get('window').height,
     padding: 15,
   },
+  logo: {
+    marginTop: 10,
+    width: 0.5 * Dimensions.get('window').width,
+    height: 200,
+  },
   heading: {
     fontSize: 40,
     fontWeight: 'bold',
@@ -77,24 +88,30 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 3,
     backgroundColor: '#fff',
-    borderColor: '#000',
+    borderColor: '#858585',
     borderWidth: 0.4,
     elevation: 7,
-    shadowColor: '#000',
+    shadowColor: '#858585',
     shadowOffset: { width: 0.5, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 1,
     color: '#000',
+    width: 0.7 * Dimensions.get('window').width,
+  },
+  spinner: {
+    marginTop: 20,
   },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#00ff7f',
+    backgroundColor: '#1955ff',
     color: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 5,
-    marginTop: 10,
+    borderWidth: 2,
+    borderColor: '#1955ff',
+    marginTop: 17,
     width: '40%',
   },
   buttonText: {
