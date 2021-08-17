@@ -17,12 +17,69 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import { AuthContext } from './Context'
 
-const Screens = () => {
-  // server ngrok url
-  const base_url = 'https://serverngrokurl.ngrok.io'
-  const { screen } = useContext(AuthContext)
+import TruSDK from '@tru_id/tru-sdk-react-native'
 
-  const registerHandler = () => {}
+const Screens = () => {
+  const base_url = 'https://serverngrokurl.ngrok.io'
+  const { screen, setScreen } = useContext(AuthContext)
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const errorHandler = ({ title, message }) => {
+    return Alert.alert(title, message, [
+      {
+        text: 'Close',
+        onPress: () => console.log('Alert closed'),
+      },
+    ])
+  }
+
+  const registerHandler = async () => {
+    const body = { phone_number: phoneNumber }
+
+    setLoading(true)
+
+    console.log('creating PhoneCheck for', body)
+
+    try {
+      const response = await fetch(`${base_url}/api/register`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const data = await response.json()
+
+      console.log(data)
+
+      // open Check URL
+
+      await TruSDK.openCheckUrl(data.data.checkUrl)
+
+      const resp = await fetch(
+        `${base_url}/api/register?check_id=${data.data.checkId}`,
+      )
+
+      const phoneCheckResult = await resp.json()
+
+      if (phoneCheckResult.data.match) {
+        setLoading(false)
+        setPhoneNumber('')
+        setScreen('home')
+      } else {
+        setLoading(false)
+        errorHandler({
+          title: 'Registration Failed',
+          message: 'PhoneCheck match failed. Please contact support',
+        })
+      }
+    } catch (e) {
+      setLoading(false)
+      errorHandler({ title: 'Something went wrong', message: e.message })
+    }
+  }
 
   return (
     <LinearGradient
@@ -41,6 +98,28 @@ const Screens = () => {
               source={require('./images/tru-logo.png')}
             />
             <Text style={styles.heading}>Register</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Number ex. +448023432345"
+              placeholderTextColor="#d3d3d3"
+              keyboardType="phone-pad"
+              value={phoneNumber}
+              editable={!loading}
+              onChangeText={(value) =>
+                setPhoneNumber(value.replace(/\s+/g, ''))
+              }
+            />
+            {loading ? (
+              <ActivityIndicator
+                style={styles.spinner}
+                size="large"
+                color="#00ff00"
+              />
+            ) : (
+              <TouchableOpacity onPress={registerHandler} style={styles.button}>
+                <Text style={styles.buttonText}>Register</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </SafeAreaView>
       ) : (
@@ -53,6 +132,7 @@ const Screens = () => {
     </LinearGradient>
   )
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
