@@ -30,7 +30,7 @@ npm i -g @tru_id/cli
 
 Input your **tru.ID** credentials which can be found within the tru.ID [console](https://developer.tru.id/console)
 
-Create a new project via:
+Create a new project with the following command in your Terminal in the project root directory:
 
 ```bash
 tru projects:create passwordless-auth-phonecheck --project-dir .
@@ -38,41 +38,42 @@ tru projects:create passwordless-auth-phonecheck --project-dir .
 
 ## Starting Project
 
-To start the server first install dependencies via:
+To start the server first install dependencies with the following commands in your Terminal:
 
 ```bash
+cd server
 npm install
-```
-
-then run
-
-```bash
 npm start
 ```
 
-then run ngrok. In the terminal where ngrok is running, run the following:
+Ngrok is needed to expose your server to the Internet so that your mobile application can communicate with it. Open a new Terminal and run the following command to start an tunnel on port 4000:
 
 ```bash
 ngrok http 4000
 ```
 
-this will give you a `https` website e.g.
+This command will give you a `https` tunnel similar to the example shown below:
 
 ```bash
 https://0d834043fe8d.ngrok.io -> http://localhost:4000
 ```
 
-To start the mobile application first open up a new terminal and install dependencies via:
+To run the mobile application, first you'll need to open a new Terminal instance and install the mobile dependencies with the following commands:
 
 ```bash
- cd app && npm install
+cd mobile && npm install
 ```
 
-then run:
+If you wish to test the mobile application on Android, run the command below:
 
 ```bash
 npm run android
-#or
+```
+
+Or if you wish to test the mobile application on iOS, run the command below:
+
+```bash
+npx pod-install
 npm run ios
 ```
 
