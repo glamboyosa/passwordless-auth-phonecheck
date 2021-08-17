@@ -1,2 +1,5 @@
 tru.json
 .idea/*
+mobile/package-lock.json
+server/package-lock.json
+mobile/yarn.lock
