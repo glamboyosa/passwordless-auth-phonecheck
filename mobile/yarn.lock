@@ -1139,6 +1139,11 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
+"@tru_id/tru-sdk-react-native@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@tru_id/tru-sdk-react-native/-/tru-sdk-react-native-0.3.3.tgz#2e1fc2078bbe7b16306ab4e62cd8f4d3151c34ea"
+  integrity sha512-EfFm5qKVrjsIiEnGmkQ8MtBHUZmzeVXYaOJOgLMSvxJU5FLdpwEOHWEE2dzNJumgq3d2Asikfg2u2MU/vkIIhw==
+
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.14"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.14.tgz#faaeefc4185ec71c389f4501ee5ec84b170cc402"
