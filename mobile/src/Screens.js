@@ -70,10 +70,12 @@ const Screens = () => {
       }
 
       if (!isPhoneCheckSupported) {
+        setLoading(false)
         errorHandler({
           title: 'Something went wrong.',
           message: 'PhoneCheck is not supported on MNO',
         })
+        return
       }
       const response = await fetch(`${base_url}/api/register`, {
         method: 'POST',
@@ -89,7 +91,7 @@ const Screens = () => {
 
       // open Check URL
 
-      await TruSDK.openCheckUrl(data.data.checkUrl)
+      await TruSDK.check(data.data.checkUrl)
 
       const resp = await fetch(
         `${base_url}/api/register?check_id=${data.data.checkId}`,
