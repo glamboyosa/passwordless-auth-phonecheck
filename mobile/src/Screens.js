@@ -42,7 +42,7 @@ const Screens = () => {
     console.log('creating PhoneCheck for', body)
 
     try {
-      const reachabilityDetails = TruSDK.isReachable()
+      const reachabilityDetails = await TruSDK.isReachable()
 
       const reachabilityInfo = JSON.parse(reachabilityDetails)
 
