@@ -3,6 +3,8 @@ const morgan = require('morgan')
 const { createPhoneCheck } = require('./helpers/createPhoneCheck')
 const { patchPhoneCheck } = require('./helpers/patchPhoneCheck')
 const app = express()
+const { createPhoneCheck } = require('./helpers/createPhoneCheck')
+const { getPhoneCheck } = require('./helpers/getPhoneCheck')
 
 app.use(express.json())
 app.use(morgan('dev'))

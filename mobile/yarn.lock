@@ -1527,6 +1527,11 @@
   "resolved" "https://registry.npmjs.org/@tru_id/tru-sdk-react-native/-/tru-sdk-react-native-1.0.0-preview.tgz"
   "version" "1.0.0-preview"
 
+"@tru_id/tru-sdk-react-native@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@tru_id/tru-sdk-react-native/-/tru-sdk-react-native-0.3.3.tgz#2e1fc2078bbe7b16306ab4e62cd8f4d3151c34ea"
+  integrity sha512-EfFm5qKVrjsIiEnGmkQ8MtBHUZmzeVXYaOJOgLMSvxJU5FLdpwEOHWEE2dzNJumgq3d2Asikfg2u2MU/vkIIhw==
+
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   "integrity" "sha512-zGZJzzBUVDo/eV6KgbE0f0ZI7dInEYvo12Rb70uNQDshC3SkRMb67ja0GgRHZgAX3Za6rhaWlvbDO8rrGyAb1g=="
   "resolved" "https://registry.npmjs.org/@types/babel__core/-/babel__core-7.1.14.tgz"

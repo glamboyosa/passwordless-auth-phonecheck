@@ -18,6 +18,8 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import { AuthContext } from './Context'
 
+import TruSDK from '@tru_id/tru-sdk-react-native'
+
 const Screens = () => {
   const base_url = '{YOUR_NGROK_URL}'
   const { screen, setScreen } = useContext(AuthContext)
