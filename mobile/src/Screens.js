@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import TruSdkReactNative from '@tru_id/tru-sdk-react-native'
 
 import {
   SafeAreaView,
@@ -20,7 +21,7 @@ import { AuthContext } from './Context'
 import TruSDK from '@tru_id/tru-sdk-react-native'
 
 const Screens = () => {
-  const base_url = 'https://serverngrokurl.ngrok.io'
+  const base_url = '{YOUR_NGROK_URL}'
   const { screen, setScreen } = useContext(AuthContext)
   const [phoneNumber, setPhoneNumber] = useState('')
   const [loading, setLoading] = useState(false)
@@ -42,11 +43,15 @@ const Screens = () => {
     console.log('creating PhoneCheck for', body)
 
     try {
-      const reachabilityDetails = await TruSDK.isReachable()
+      const reachabilityResponse =
+      await TruSdkReactNative.openWithDataCellular(
+        'https://{DATA_RESIDENCY}.api.tru.id/public/coverage/v0.1/device_ip'
+      );
 
-      const reachabilityInfo = JSON.parse(reachabilityDetails)
+      console.log(reachabilityResponse);
+      let isMNOSupported = false
 
-      if (reachabilityInfo.error.status === 400) {
+      if ('error' in reachabilityResponse) {
         errorHandler({
           title: 'Something went wrong.',
           message: 'MNO not supported',
@@ -54,19 +59,34 @@ const Screens = () => {
         setLoading(false)
 
         return
+      } else if ('http_status' in reachabilityResponse) {
+        let httpStatus = reachabilityResponse.http_status;
+        if (httpStatus === 200 && reachabilityResponse.response_body !== undefined) {
+          let body = reachabilityResponse.response_body;
+          console.log('product => ' + JSON.stringify(body.products[0]));
+          isMNOSupported = true;
+        } else if (httpStatus === 400 || httpStatus === 412 || reachabilityResponse.response_body !== undefined) {
+          errorHandler({
+            title: 'Something went wrong.',
+            message: 'MNO not supported',
+          })
+          setLoading(false)
+
+          return
+        }
       }
+
       let isPhoneCheckSupported = false
 
-      if (reachabilityInfo.error.status !== 412) {
-        for (const { productType } of reachabilityInfo.products) {
-          console.log('supported products are', productType)
+      if (isMNOSupported === true) {
+        reachabilityResponse.response_body.products.forEach((product) => {
+          console.log('supported products are', product)
 
-          if (productType === 'PhoneCheck') {
+          if (product.product_name === 'Phone Check') {
             isPhoneCheckSupported = true
+            console.log('Phone Check is here!')
           }
-        }
-      } else {
-        isPhoneCheckSupported = true
+        })
       }
 
       if (!isPhoneCheckSupported) {
@@ -77,6 +97,7 @@ const Screens = () => {
         })
         return
       }
+
       const response = await fetch(`${base_url}/api/register`, {
         method: 'POST',
         body: JSON.stringify(body),
@@ -89,26 +110,68 @@ const Screens = () => {
 
       console.log(data)
 
-      // open Check URL
+      console.log(`PhoneCheck [Start] ->`);
+      const checkResponse = await TruSdkReactNative.openWithDataCellular(
+        data.data.checkUrl
+      );
+      console.log(`PhoneCheck [Done] ->`);
 
-      await TruSDK.check(data.data.checkUrl)
+      if ('error' in checkResponse) {
+        console.log(`Error in openWithDataCellular: ${checkResponse.error_description}`);
+      } else if ('http_status' in checkResponse) {
+        const httpStatus = checkResponse.http_status;
+        if (httpStatus === 200 && checkResponse.response_body !== undefined) {
+          console.log(`Requesting PhoneCheck URL`);
 
-      const resp = await fetch(
-        `${base_url}/api/register?check_id=${data.data.checkId}`,
-      )
+          if ('error' in checkResponse.response_body) {
+            const body = checkResponse.response_body;
+            console.log(`Error: ${body.error_description}`);
+          } else {
+            const body = checkResponse.response_body;
 
-      const phoneCheckResult = await resp.json()
+            try {
+              const checkStatusRes = await fetch(`${base_url}/api/exchange-code`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  check_id: body.check_id,
+                  code: body.code,
+                  reference_id: null,
+                }),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              })
 
-      if (phoneCheckResult.data.match) {
-        setLoading(false)
-        setPhoneNumber('')
-        setScreen('home')
-      } else {
-        setLoading(false)
-        errorHandler({
-          title: 'Registration Failed',
-          message: 'PhoneCheck match failed. Please contact support',
-        })
+              const data = await checkStatusRes.json()
+              console.log('[CHECK RESULT]:', data);
+
+              if (data.data.match) {
+                console.log(`✅ successful PhoneCheck match`);
+                setLoading(false)
+                setPhoneNumber('')
+                setScreen('home')
+              } else {
+                console.log(`❌ failed PhoneCheck match`);
+                setLoading(false)
+                errorHandler({
+                  title: 'Registration Failed',
+                  message: 'PhoneCheck match failed. Please contact support',
+                })
+              }
+            } catch (error) {
+              console.log(`Error: ${error.message}`);
+              console.log(JSON.stringify(error, null, 2));
+              errorHandler({
+                title: 'Error retrieving check result',
+                message: error.message,
+              })
+              return;
+            }
+          }
+        } else {
+          const body = resp.response_body;
+          console.log(`Error: ${body.detail}`);
+        }
       }
     } catch (e) {
       setLoading(false)

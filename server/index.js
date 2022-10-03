@@ -1,5 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
+const { createPhoneCheck } = require('./helpers/createPhoneCheck')
+const { patchPhoneCheck } = require('./helpers/patchPhoneCheck')
 const app = express()
 const { createPhoneCheck } = require('./helpers/createPhoneCheck')
 const { getPhoneCheck } = require('./helpers/getPhoneCheck')
@@ -13,7 +15,6 @@ app.post('/api/register', async (req, res) => {
 
   try {
     // create PhoneCheck resource
-
     const { checkId, checkUrl, numberSupported } = await createPhoneCheck(
       phoneNumber,
     )
@@ -31,18 +32,17 @@ app.post('/api/register', async (req, res) => {
   }
 })
 
-// get PhoneCheck response
-
-app.get('/api/register', async (req, res) => {
+// complete PhoneCheck
+app.post('/api/exchange-code', async (req, res) => {
   // get the `check_id` from the query parameter
-  const { check_id: checkId } = req.query
+  const { check_id: checkId, code: code } = req.body
 
   try {
     // get the PhoneCheck response
-    const { match } = await getPhoneCheck(checkId)
+    const { patchResponseStatus, patchResponse } = await patchPhoneCheck(checkId, code)
 
-    console.log(match)
-    res.status(200).send({ data: { match } })
+    console.log(patchResponseStatus, patchResponse)
+    res.status(patchResponseStatus).send({ data: patchResponse })
   } catch (e) {
     console.log(JSON.stringify(e))
     res.status(500).send({ message: e.message })

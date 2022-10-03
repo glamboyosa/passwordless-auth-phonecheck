@@ -11,14 +11,17 @@ exports.createAccessToken = async () => {
     'base64',
   )
 
-  const resp = await fetch(`https://eu.api.tru.id/oauth2/v1/token`, {
-    method: 'POST',
-    body: 'grant_type=client_credentials&scope=phone_check',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${basicAuth}`,
+  const resp = await fetch(
+    `https://{DATA_RESIDENCY}.api.tru.id/oauth2/v1/token`,
+    {
+      method: 'POST',
+      body: 'grant_type=client_credentials&scope=phone_check',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${basicAuth}`,
+      },
     },
-  })
+  )
 
   const { access_token } = await resp.json()
 

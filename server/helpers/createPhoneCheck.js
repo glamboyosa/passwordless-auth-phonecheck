@@ -11,7 +11,7 @@ exports.createPhoneCheck = async (phoneNumber) => {
   const body = JSON.stringify({ phone_number: phoneNumber })
 
   const response = await fetch(
-    `https://eu.api.tru.id/phone_check/v0.1/checks`,
+    `https://{DATA_RESIDENCY}.api.tru.id/phone_check/v0.2/checks`,
     {
       method: 'POST',
       body,
