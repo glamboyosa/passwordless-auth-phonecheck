@@ -8,9 +8,8 @@ app.use(morgan('dev'))
 // create PhoneCheck
 app.post('/api/register', async (req, res) => {})
 
-// get PhoneCheck response
-
-app.get('/api/register', async (req, res) => {})
+// complete PhoneCheck
+app.post('/api/exchange-code', async (req, res) => {})
 
 // setup server
 app.listen(4000, () => {
